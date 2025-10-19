@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Automation and Services - Professional 3D Printing Services</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo" id="logo-home">
+                    <i class="fas fa-cube"></i>
+                    <div class="logo-text">
+                        <h1>US Automation and Services</h1>
+                        <span>Professional 3D Printing Services</span>
+                    </div>
+                </div>
+                <div class="nav-info">
+                    <i class="fas fa-print"></i>
+                    <span>High Quality • Fast Delivery</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active clickable" data-step="1" id="step-1">
+                    <div class="step-number">1</div>
+                    <span>Upload File</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step clickable" data-step="2" id="step-2">
+                    <div class="step-number">2</div>
+                    <span>Preview</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step clickable" data-step="3" id="step-3">
+                    <div class="step-number">3</div>
+                    <span>Order Details</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step clickable" data-step="4" id="step-4">
+                    <div class="step-number">4</div>
+                    <span>Confirmation</span>
+                </div>
+            </div>
+
+            <!-- Step 1: File Upload -->
+            <section id="upload-section" class="section active">
+                <div class="section-header">
+                    <h2>Upload Your 3D Model</h2>
+                    <p>Support for STL, OBJ, STEP, IGES, and more formats</p>
+                </div>
+
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Drag & drop your 3D file here</h3>
+                        <p>or click to browse files</p>
+                        <input type="file" id="file-input" accept=".stl,.obj,.ply,.step,.stp,.iges,.igs,.3mf,.amf" hidden>
+                    </div>
+                    <div class="upload-progress" id="upload-progress">
+                        <i class="fas fa-cog"></i>
+                        <h3>Processing your file...</h3>
+                        <p>Converting to STL format for preview</p>
+                    </div>
+                </div>
+
+                <div class="file-formats">
+                    <h3>Supported File Formats:</h3>
+                    <div class="formats-grid">
+                        <div class="format"><i class="fas fa-file"></i> STL</div>
+                        <div class="format"><i class="fas fa-file"></i> OBJ</div>
+                        <div class="format"><i class="fas fa-file"></i> STEP/STP</div>
+                        <div class="format"><i class="fas fa-file"></i> IGES/IGS</div>
+                        <div class="format"><i class="fas fa-file"></i> PLY</div>
+                        <div class="format"><i class="fas fa-file"></i> 3MF</div>
+                        <div class="format"><i class="fas fa-file"></i> AMF</div>
+                        <div class="format"><i class="fas fa-check-circle"></i> More...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3D Model Preview Section -->
+            <section id="preview-section" class="section">
+            <header class="section-header">
+                <h2>2. Preview Your Model</h2>
+                <p>Inspect your 3D model before placing your order</p>
+            </header>
+
+            <div class="viewer-container">
+                <div id="viewer">
+                <!-- Loading Indicator -->
+                <div id="viewer-loading" class="viewer-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading 3D viewer...</p>
+                </div>
+
+                <!-- 3D Canvas for Three.js -->
+                <canvas id="threejs-canvas"></canvas>
+
+                <!-- Viewer Controls -->
+                <nav class="viewer-controls">
+                    <button id="reset-view" title="Reset View (Double Click)">
+                    <i class="fas fa-crosshairs"></i><span>Reset</span>
+                    </button>
+                    <button id="toggle-wireframe" title="Toggle Wireframe (W)">
+                    <i class="fas fa-project-diagram"></i><span>Wireframe</span>
+                    </button>
+                    <button id="toggle-axes" title="Toggle Axes (A)">
+                    <i class="fas fa-arrows-alt"></i><span>Axes</span>
+                    </button>
+                    <button id="toggle-grid" title="Toggle Grid (G)">
+                    <i class="fas fa-border-style"></i><span>Grid</span>
+                    </button>
+                    <button id="fullscreen-viewer" title="Toggle Fullscreen (F)">
+                    <i class="fas fa-expand"></i><span>Fullscreen</span>
+                    </button>
+                </nav>
+
+                <!-- Model Stats -->
+                <section id="model-info" class="model-info" hidden>
+                    <h4>Model Information</h4>
+                    <p><strong>Dimensions:</strong> <span id="model-dimensions">-</span> mm</p>
+                    <p><strong>Volume:</strong> <span id="model-volume">-</span> cm³</p>
+                    <p><strong>Triangles:</strong> <span id="model-triangles">-</span></p>
+                    <p><strong>Vertices:</strong> <span id="model-vertices">-</span></p>
+                </section>
+
+                <!-- Viewer Stats -->
+                <div class="viewer-stats">
+                    <span>FPS: <span id="fps-counter">-</span></span>
+                    <span>Vertices: <span id="vertex-count">-</span></span>
+                </div>
+                </div>
+                </div>
+
+                <!-- Next Action -->
+                <div class="section-actions">
+                    <button class="btn btn-primary" id="proceed-to-order">Proceed to Order</button>
+                </div>
+                </section>
+
+
+            <!-- Step 3: Order Form -->
+            <section id="order-section" class="section">
+                <div class="section-header">
+                    <h2>Order Details</h2>
+                    <p>Configure your print settings and provide contact information</p>
+                </div>
+
+                <form id="order-form" class="order-form">
+                    <!-- File Info -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <i class="fas fa-box"></i>
+                            <h3>File Information</h3>
+                        </div>
+                        <div class="file-info" id="file-info">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <i class="fas fa-user"></i>
+                            <h3>Contact Information</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="customer-name">Full Name *</label>
+                                <input type="text" id="customer-name" name="customerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer-email">Email Address *</label>
+                                <input type="email" id="customer-email" name="customerEmail" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="customer-phone">Phone Number (Optional)</label>
+                                <input type="tel" id="customer-phone" name="customerPhone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Print Settings -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i>
+                            <h3>Print Settings</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label for="material">Material</label>
+                                <select id="material" name="material">
+                                    <option value="PLA">PLA (Recommended) - Easy to print, biodegradable</option>
+                                    <option value="ABS">ABS - Strong, heat resistant</option>
+                                    <option value="PETG">PETG - Chemical resistant, clear</option>
+                                    <option value="TPU">TPU (Flexible) - Flexible, rubber-like</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="infill">Infill Density</label>
+                                <select id="infill" name="infill">
+                                    <option value="10">10% (Lightweight)</option>
+                                    <option value="20" selected>20% (Standard)</option>
+                                    <option value="50">50% (Strong)</option>
+                                    <option value="100">100% (Solid)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="layer-height">Layer Height</label>
+                                <select id="layer-height" name="layerHeight">
+                                    <option value="0.1">0.1mm (High Quality)</option>
+                                    <option value="0.2" selected>0.2mm (Standard)</option>
+                                    <option value="0.3">0.3mm (Fast)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" id="quantity" name="quantity" min="1" max="100" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="form-card">
+                        <div class="card-header">
+                            <i class="fas fa-comment"></i>
+                            <h3>Additional Notes</h3>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="notes" name="notes" rows="3" placeholder="Any special requirements or instructions..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Price Estimate -->
+                    <div class="price-card">
+                        <div class="price-header">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h3>Estimated Price</h3>
+                        </div>
+                        <div class="price-amount" id="price-estimate">$0.00</div>
+                        <p>Final price may vary based on actual print time and material usage</p>
+                    </div>
+
+                    <div class="section-actions">
+                        <button type="submit" class="btn btn-primary">
+                            Submit Order
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Step 4: Confirmation -->
+            <section id="confirmation-section" class="section">
+                <div class="confirmation-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Order Confirmed!</h2>
+                    <p>Thank you for your order. We'll start processing it shortly.</p>
+
+                    <div class="order-summary" id="order-summary">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
+                    <div class="next-steps">
+                        <div class="steps-header">
+                            <i class="fas fa-envelope"></i>
+                            <h3>What's Next?</h3>
+                        </div>
+                        <div class="steps-list">
+                            <div class="step-item">
+                                <div class="step-num">1</div>
+                                <p>You'll receive an email confirmation with your order details</p>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num">2</div>
+                                <p>We'll review your file and confirm the final price</p>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num">3</div>
+                                <p>Your order will be queued for printing</p>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num">4</div>
+                                <p>We'll notify you when your print is ready for pickup/delivery</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <p><strong>Need to make changes?</strong></p>
+                        <p>Contact us immediately at <a href="mailto:orders@usautomation.com">orders@usautomation.com</a> with your order ID if you need to modify your order.</p>
+                    </div>
+
+                    <div class="section-actions">
+                        <button class="btn btn-primary" id="start-over">
+                            <i class="fas fa-redo"></i> Place Another Order
+                        </button>
+                        <a href="mailto:support@usautomation.com" class="btn btn-secondary">
+                            <i class="fas fa-envelope"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r155/three.min.js"></script>
+    <!-- Three.js Addons -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/STLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/PLYLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/loaders/3MFLoader.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
